@@ -1,0 +1,64 @@
+body {
+    background-image: url(253304_gory_jezioro_swierki_swiatlo_cien_odbicie.jpg);
+    background-size: 100%;
+    background-repeat: repeat;
+
+}
+.forma {
+    width: 20%;
+    min-width: 200px;
+    margin: 70px auto 0;
+    background-color: rgba(255, 243, 216, 0.95);
+    position: relative;
+    padding: 10px;
+    border-radius: 5%;
+}
+.loginform {
+    width: 20%;
+    min-width: 200px;
+    margin: 70px auto 0;
+    background-color: rgba(255, 243, 216, 0.95);
+    position: relative;
+    padding: 10px;
+    border-radius: 5%;
+}
+/* .mbbut {
+    margin-top: 10px;
+} */
+.inpname:hover {
+    background-color: rgba(128, 128, 128, 0.458);
+}
+.name {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+.surname {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+.email {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+.passsword{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+.titleform {
+    margin-top: 0px;
+    text-align: center;
+    font-size: 15pt;
+}
+.hidden {
+    display: none;
+}
+.warningmass {
+    color: red;
+}
+.warniginp {
+    border-color: red;
+}

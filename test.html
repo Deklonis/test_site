@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form class="forma" id="forma">
+        <p class="titleform">Создать аккаунт</p>
+        <label class="warningmass" id="warntext"></label>
+        <div class="name">
+            <label for="name">Введите Имя</label>
+            <input type="text" id="name" class="inpname">
+        </div>
+        <div class="surname">
+            <label for="surname">Введите фамилию</label>
+            <input type="text" id="surname">
+        </div>
+        <div class="email">
+            <label for="email">Введите почту</label>
+            <input type="email" id="email">
+        </div>
+        <div class="passsword">
+            <label for="pass">Введите пароль</label>
+            <input type="password" id="pass">
+        </div>
+        <button id="mb" class="mbbut" type="button">Сохранить</button>
+        <p id="textd"></p>
+        <p class="singtext">Уже есть аккаунт? Войдите</p>
+        <a href="#" id="singin" class="singbut">Войти</a>
+    </form>
+
+    <form class="loginform hidden" id="loginform">
+        <p class="titleform">Войти в аккаунт</p>
+        <label class="warningmass" id="warnlogin"></label>
+        <div class="email">
+            <label for="loginemail">Введите почту</label>
+            <input type="text" id="loginemail">
+        </div>
+        <div class="passsword">
+            <label for="loginpass">Введите пароль</label>
+            <input type="password" id="loginpass">
+        </div>
+        <button id="tb" class="mbbut" type="button">Войти</button>
+        <p id="textid"></p>
+        <p class="singtext">Нет аккаунта?</p>
+        <a href="#" id="singup" class="singbut">Создать</a>
+    </form>
+    <script>
+        const name1 = document.getElementById('name');
+        const surname = document.getElementById('surname');
+        const email = document.getElementById('email');
+        const button = document.getElementById('mb');
+        const text1 = document.getElementById('textd');
+        const pass1 = document.getElementById('pass');
+        const warntext = document.getElementById('warntext')
+
+        const loginemail = document.getElementById('loginemail');
+        const loginpass = document.getElementById('loginpass');
+        const singin = document.getElementById('singin');
+        const singup = document.getElementById('singup');
+        const warnlog = document.getElementById('warnlogin')
+
+        const loginbutt = document.getElementById('tb')
+
+        const forma = document.getElementById('forma');
+        const loginform = document.getElementById('loginform')
+        button.addEventListener('click', function() {
+            if (name1.value.length > 0 && surname.value.length > 0 && email.value.length > 0 && pass1.value.length > 0) {
+                register()
+            } else {
+                alert("Заполните все поля");
+            }
+        })
+        async function register() {
+            try{
+                const responce = await fetch("http://localhost:8000/register/", {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify({
+                        name: name1.value,
+                        surname: surname.value,
+                        email: email.value,
+                        password: pass1.value
+                    })
+                });
+    
+                const result = await responce.json();
+                console.log(result);
+
+                if (!responce.ok) {
+                    warntext.textContent = 'Такая почта уже существует';
+                    email.classList.add('warniginp');
+                } else {
+                    warntext.textContent = ''
+                    text1.textContent = 'Аккаунт создан!';
+                    email.classList.remove('warniginp')
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        loginbutt.addEventListener('click', function(){
+            if (loginemail.value.length > 0 && loginpass.value.length > 0) {
+                login_user();
+            } else {
+                alert("Введите данные");
+            }
+        });
+
+        async function login_user() {
+            const reslogin = await fetch("http://localhost:8000/login/", {
+                method: 'POST',
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({
+                    loginemail1: loginemail.value,
+                    loginpass1: loginpass.value
+                })
+            });
+            const res = await reslogin.json();
+            if (!reslogin.ok) { 
+                if (res.detail == 'Неверный пароль или логин') {
+                    warnlog.textContent = 'Неверный логин или пароль'
+                } else if (res.detail == 'Такого пользователя не существует. Создайте аккаунт') {
+                    warnlog.textContent = 'Такого пользователя не существует'
+                }
+            } else {
+                alert('Успешный вход');
+            }
+        }
+
+        singin.addEventListener('click', function(e) {
+            e.preventDefault();
+            forma.classList.add('hidden');
+            loginform.classList.remove('hidden')
+            
+        })
+        singup.addEventListener('click', function(e) {
+            e.preventDefault();
+            forma.classList.remove('hidden');
+            loginform.classList.add('hidden')
+            
+        })
+        
+    </script>
+</body>
+</html>
